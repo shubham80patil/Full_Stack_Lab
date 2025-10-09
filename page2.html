@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Doctor Info — CareWell</title>
+    <link rel="stylesheet" href="page2.css" />
+</head>
+
+<body>
+  <div class="container" role="main">
+    <header>
+      <!-- Inline accessible SVG (hospital + heart icon) -->
+      <svg class="logo" viewBox="0 0 64 64" role="img" aria-labelledby="logoTitle logoDesc" xmlns="http://www.w3.org/2000/svg">
+        <title id="logoTitle">CareWell Hospital</title>
+        <desc id="logoDesc">Hospital cross with small heart — CareWell Logo</desc>
+        <rect x="6" y="12" width="52" height="40" rx="6" fill="#ffffff" opacity="0.15" />
+        <rect x="16" y="8" width="32" height="48" rx="4" fill="#ffffff" opacity="0.08" />
+        <g transform="translate(12,6)">
+          <rect x="10" y="6" width="24" height="8" rx="2" fill="#0ea5a4"/>
+          <rect x="6" y="14" width="32" height="28" rx="3" fill="#06a59f"/>
+          <!-- cross -->
+          <rect x="18" y="18" width="6" height="18" rx="1" fill="#ffffff"/>
+          <rect x="12" y="24" width="18" height="6" rx="1" fill="#ffffff"/>
+          <!-- heart -->
+          <path d="M28 46c0-3-5-6-8-6s-8 3-8 6c0 3 3 6 8 9 5-3 8-6 8-9z" fill="#ff6b6b" transform="translate(-4,-4) scale(0.6)"/>
+        </g>
+      </svg>
+
+      <div>
+        <h1>CareWell — Doctor Information</h1>
+        <p style="margin:0; font-size:0.95rem; color: #f0f8fb;">Serving Mumbai for 30 years · Specialists across departments</p>
+      </div>
+    </header>
+
+    <main>
+      <!-- LEFT: image + canvas -->
+      <section class="left" aria-hidden="false">
+        <!-- Responsive image (use alt text) -->
+        <img class="doctor-img"
+             src="img/doc.jpg"
+             alt="Portrait of a medical doctor standing in a clinic corridor"
+             width="700" height="500">
+
+        <!-- Canvas: animated heartbeat -->
+        <div class="canvas-wrap" aria-hidden="true">
+          <canvas id="heartbeat" width="800" height="140" style="width:100%; height:140px; display:block;"></canvas>
+        </div>
+      </section>
+
+      <!-- RIGHT: table + details -->
+      <aside class="right">
+        <table aria-describedby="doctors-desc">
+          <caption id="doctors-desc" style="text-align:left; padding:0.65rem 0; font-weight:700; color: #08323a;">Our Doctors</caption>
+          <thead>
+            <tr>
+              <th scope="col">Doctor</th>
+              <th scope="col">Qualification</th>
+              <th scope="col">Contact</th>
+              <th scope="col">Experience</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Dr. Vivek Joshi</td>
+              <td>MBBS</td>
+              <td><a href="tel:+919766346655">+91 97663 46655</a></td>
+              <td>15 years</td>
+            </tr>
+            <tr>
+              <td>Dr. Anita Shinde</td>
+              <td>MD</td>
+              <td><a href="tel:+919673606234">+91 96736 06234</a></td>
+              <td>7 years</td>
+            </tr>
+            <tr>
+              <td>Dr. Andrew Mario</td>
+              <td>BPT</td>
+              <td><a href="tel:+919543366459">+91 95433 66459</a></td>
+              <td>10 years</td>
+            </tr>
+            <tr>
+              <td>Dr. Riya Mahajan</td>
+              <td>MBBS</td>
+              <td><a href="tel:+919233144346">+91 92331 44346</a></td>
+              <td>5 years</td>
+            </tr>
+            <tr>
+              <td>Dr. Navneet Rasal</td>
+              <td>BAMS</td>
+              <td><a href="tel:+919876531714">+91 98765 31714</a></td>
+              <td>4 years</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="details" aria-labelledby="about-title">
+          <h2 id="about-title" style="margin-top:0;">Hello — About CareWell</h2>
+          <p>We have been serving Mumbai for 30 years and are one of the largest hospital chains across India. Our specialists include:</p>
+
+          <ul>
+            <li>Anesthesiologist</li>
+            <li>Cardiologist</li>
+            <li>Chiropractor</li>
+            <li>Dentist</li>
+            <li>Dermatologist</li>
+            <li>Fertility Specialist</li>
+            <li>Gynecologist</li>
+            <li>Pediatrician</li>
+            <li>Allergist</li>
+          </ul>
+
+          <p>We are here to serve humankind. Feel free to contact us any time (24/7).</p>
+
+          <p class="contact">Email us at
+            <a class="mail" href="mailto:wecareglobalhospital@gmail.com">wecareglobalhospital@gmail.com</a>
+          </p>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <script>
+    /* ---------- Canvas Heartbeat Animation ----------
+       Draws a simple animated ECG/heartbeat line across the canvas.
+       It's decorative and marked aria-hidden above.
+    -------------------------------------------------*/
+
+    (function(){
+      const canvas = document.getElementById('heartbeat');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      // Logical width/height for crisp drawing on high-DPI screens
+      function resizeToDisplaySize() {
+        const ratio = window.devicePixelRatio || 1;
+        const width = canvas.clientWidth * ratio;
+        const height = canvas.clientHeight * ratio;
+        if (canvas.width !== width || canvas.height !== height) {
+          canvas.width = width;
+          canvas.height = height;
+        }
+        ctx.lineWidth = Math.max(2, 2 * ratio);
+      }
+      resizeToDisplaySize();
+      window.addEventListener('resize', resizeToDisplaySize);
+
+      const w = () => canvas.width;
+      const h = () => canvas.height;
+
+      // animation state
+      let offset = 0;
+      const speed = 2; // pixels per frame (controls wave speed)
+
+      function drawBackground(){
+        // soft background
+        ctx.fillStyle = '#fff';
+        ctx.globalAlpha = 0.02;
+        ctx.fillRect(0, 0, w(), h());
+        ctx.globalAlpha = 1;
+      }
+
+      function drawGrid(){
+        const spacing = Math.round(h()/8);
+        ctx.strokeStyle = '#e6f2f2';
+        ctx.lineWidth = 1;
+        for (let y = spacing; y < h(); y += spacing) {
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(w(), y);
+          ctx.stroke();
+        }
+      }
+
+      function heartbeatWave(x){
+        // compose a heartbeat-like waveform: baseline + spike
+        // Return y (0..1) normalized where 0.5 is center
+        // We'll create repeating pattern every 220 px
+        const period = 220;
+        const t = ((x + offset) % period) / period;
+
+        // baseline sine for gentle movement
+        const baseline = 0.5 + 0.02 * Math.sin((x + offset)/40);
+
+        // spike region in cycle
+        let spike = 0;
+        if (t > 0.45 && t < 0.52) {
+          // tall spike
+          const u = (t - 0.45)/0.07;
+          spike = Math.sin(u * Math.PI) * 0.28; // tall
+        } else if (t >= 0.52 && t < 0.60) {
+          // small rebound
+          const u = (t - 0.52)/0.08;
+          spike = -Math.sin(u * Math.PI) * 0.12; // small negative
+        }
+
+        return baseline - spike; // subtract because canvas y increases downward
+      }
+
+      function render(){
+        resizeToDisplaySize();
+        ctx.clearRect(0,0,w(),h());
+        drawBackground();
+        drawGrid();
+
+        // draw axis line
+        const centerY = h() * 0.5;
+        ctx.strokeStyle = '#cfeff0';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(0, centerY);
+        ctx.lineTo(w(), centerY);
+        ctx.stroke();
+
+        // draw waveform
+        ctx.strokeStyle = '#ff5964';
+        ctx.lineWidth = Math.max(2, ctx.lineWidth);
+        ctx.beginPath();
+        const step = 2; // pixel step
+        for (let x = 0; x <= w(); x += step) {
+          const yNorm = heartbeatWave(x);
+          const y = yNorm * h();
+          if (x === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        // subtle glow
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.strokeStyle = 'rgba(255,89,100,0.08)';
+        ctx.lineWidth = ctx.lineWidth + 6;
+        ctx.beginPath();
+        for (let x = 0; x <= w(); x += step) {
+          const yNorm = heartbeatWave(x);
+          const y = yNorm * h();
+          if (x === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+        ctx.globalCompositeOperation = 'source-over';
+
+        offset -= speed;
+        requestAnimationFrame(render);
+      }
+
+      render();
+    })();
+  </script>
+</body>
+</html>
