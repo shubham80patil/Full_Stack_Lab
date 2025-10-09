@@ -1,10 +1,10 @@
 // Responsive navigation toggle
-const menuBtn = document.getElementById("menu-btn");
-const navMenu = document.getElementById("nav-menu");
+ const hamburger = document.getElementById("hamburger");
+    const navMenu = document.getElementById("nav-menu");
 
-menuBtn.addEventListener("click", () => {
-  navMenu.classList.toggle("hidden");
-});
+    hamburger.addEventListener("click", () => {
+      navMenu.classList.toggle("active");
+    });
 
 // Modal functionality
 const modal = document.getElementById("discountModal");
